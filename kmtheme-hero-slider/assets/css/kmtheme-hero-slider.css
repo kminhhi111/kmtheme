@@ -1,0 +1,366 @@
+/**
+ * KMTheme Hero Slider CSS
+ * 
+ * @package KMTheme_Hero_Slider
+ * @author kminhhi
+ * @version 1.0.0
+ */
+
+.hero-slider {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+}
+
+/* Scroll-driven fullscreen mode */
+.hero-slider-scroll {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-slider-scroll .hero-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slider-scroll .hero-slide {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.hero-slider-scroll .hero-slide-inner {
+    height: 100vh;
+    min-height: 100vh;
+}
+
+.hero-slides {
+    position: relative;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Đảm bảo slide đầu tiên hiển thị ngay cả khi JS chưa chạy */
+.hero-slide:first-child {
+    opacity: 1;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.hero-slide.is-active {
+    position: relative;
+    opacity: 1 !important;
+    pointer-events: auto;
+    z-index: 1;
+    visibility: visible !important;
+}
+
+.hero-slide-inner {
+    display: flex;
+    position: relative;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.hero-left,
+.hero-right {
+    flex: 1;
+}
+
+.hero-left {
+    position: absolute;
+    z-index: 5;
+    left: 8%;
+    bottom: 15%;
+    max-width: 520px;
+}
+
+.hero-left h1 {
+    text-transform: uppercase;
+    FONT-WEIGHT: 400;
+    font-size: 46px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+}
+
+.hero-left p {
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 540px;
+    margin-bottom: 24px;
+}
+
+.hero-link {
+    position: relative;
+    display: inline-block;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #F8EFDE !important;
+    padding-left: 22px;
+    transition: .3s ease;
+}
+
+.hero-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 2px;
+    background: #F8EFDE;
+    transition: .35s ease;
+}
+
+.hero-link:hover::before {
+    width: 22px;
+}
+
+.hero-link:hover {
+    padding-left: 28px; 
+}
+
+.hero-right {
+    position: relative;
+    transform-origin: bottom center; /* Thu nhỏ từ góc dưới */
+}
+
+.hero-right::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, 
+        transparent 0%, 
+        rgba(0, 0, 0, 0.2) 30%, 
+        rgba(0, 0, 0, 0.5) 50%, 
+        rgba(0, 0, 0, 0.7) 70%, 
+        rgba(0, 0, 0, 0.8) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-right img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    position: relative;
+    z-index: 0;
+}
+
+/* Nút điều hướng */
+.hero-nav {
+    position: absolute;
+    left: 6%;
+    bottom: 40px;
+    display: flex;
+    gap: 40px;
+    z-index: 5;
+}
+
+.hero-nav button {
+    background: none;
+    border: none;
+    color: #F8EFDE;
+    font-size: 24px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.hero-nav button:hover {
+    opacity: .7;
+}
+
+/* Animation - Cải thiện để mượt hơn */
+@keyframes heroLeftOutRight {
+    /* Text chạy ngang từ vị trí ban đầu ra bên trái, không fade */
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 1; transform: translateX(-100%); }
+}
+
+@keyframes heroRightOutRight {
+    /* Ảnh thu nhỏ 50% từ góc dưới rồi chạy ngang qua phải */
+    from { opacity: 1; transform: scale(1) translateX(0); transform-origin: bottom center; }
+    to   { opacity: 0; transform: scale(0.5) translateX(100%); transform-origin: bottom center; }
+}
+
+@keyframes heroLeftInRight {
+    /* Text đi từ trái vào */
+    from { opacity: 0; transform: translateX(-100%); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroLeftInRightH1 {
+    /* H1 đi từ trái vào - nhanh hơn */
+    from { opacity: 0; transform: translateX(-100%); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroLeftInRightP {
+    /* P đi từ trái vào - chậm hơn, chạy sau h1 */
+    from { opacity: 0; transform: translateX(-100%); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroRightInRight {
+    /* Ảnh đi từ phải vào, scale từ 0.5 lên 1 từ góc dưới */
+    from { opacity: 0; transform: scale(0.5) translateX(100%); transform-origin: bottom center; }
+    to   { opacity: 1; transform: scale(1) translateX(0); transform-origin: bottom center; }
+}
+
+@keyframes heroLeftOutLeft {
+    from { opacity: 1; transform: scale(1) translateX(0) translateY(0); }
+    to   { opacity: 0; transform: scale(0.95) translateX(60px) translateY(20px); }
+}
+
+@keyframes heroRightOutLeft {
+    from { opacity: 1; transform: scale(1) translateX(0) translateY(0); }
+    to   { opacity: 0; transform: scale(0.95) translateX(-60px) translateY(20px); }
+}
+
+@keyframes heroLeftInLeft {
+    from { opacity: 0; transform: scale(0.95) translateX(-60px) translateY(-20px); }
+    to   { opacity: 1; transform: scale(1) translateX(0) translateY(0); }
+}
+
+@keyframes heroRightInLeft {
+    from { opacity: 0; transform: scale(0.95) translateX(60px) translateY(-20px); }
+    to   { opacity: 1; transform: scale(1) translateX(0) translateY(0); }
+}
+
+/* Tất cả slide đều dùng animation giống slide đầu (slide in từ phải) - Nhanh hơn */
+.hero-slide.is-exiting-next .hero-left,
+.hero-slide.is-exiting-prev .hero-left {
+    animation: heroLeftOutRight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* H1 và P khi exit - đảm bảo đồng bộ */
+.hero-slide.is-exiting-next .hero-left h1,
+.hero-slide.is-exiting-prev .hero-left h1,
+.hero-slide.is-exiting-next .hero-left p,
+.hero-slide.is-exiting-prev .hero-left p {
+    animation: heroLeftOutRight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.hero-slide.is-exiting-next .hero-right,
+.hero-slide.is-exiting-prev .hero-right {
+    animation: heroRightOutRight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform-origin: bottom center; /* Thu nhỏ từ góc dưới */
+}
+
+.hero-slide.is-entering-next .hero-left,
+.hero-slide.is-entering-prev .hero-left {
+    animation: heroLeftInRight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* H1 chạy nhanh trước - đảm bảo ban đầu bị ẩn */
+.hero-slide.is-entering-next .hero-left h1,
+.hero-slide.is-entering-prev .hero-left h1 {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: heroLeftInRightH1 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0s; /* Không delay, chạy ngay */
+}
+
+/* P chạy sau h1 - đảm bảo ban đầu bị ẩn */
+.hero-slide.is-entering-next .hero-left p,
+.hero-slide.is-entering-prev .hero-left p {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: heroLeftInRightP 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 0.2s; /* Delay 0.2s để chạy sau h1 */
+}
+
+.hero-slide.is-entering-next .hero-right,
+.hero-slide.is-entering-prev .hero-right {
+    animation: heroRightInRight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform-origin: bottom center; /* Thu nhỏ từ góc dưới */
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .hero-slide-inner {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .hero-left {
+        order: 1;
+        padding: 40px 15px 20px;
+        text-align: left;
+    }
+
+    .hero-right {
+        order: 2;
+        width: 100%;
+    }
+
+    .hero-right img {
+        height: 450px;
+    }
+
+    .hero-nav {
+        position: static;
+        margin: 20px auto 0;
+        justify-content: center;
+    }
+    
+    /* Đảm bảo slide cũ được ẩn ngay trên mobile */
+    .hero-slide:not(.is-active) {
+        opacity: 0 !important;
+        z-index: 0 !important;
+        pointer-events: none;
+    }
+    
+    .hero-slide.is-active {
+        opacity: 1 !important;
+        z-index: 1 !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .hero-left h1 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-slide-inner {
+        min-height: auto;
+    }
+
+    .hero-left {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        padding: 30px 15px 20px;
+        max-width: 100%;
+    }
+
+    .hero-right img {
+        height: 375px;
+    }
+}
+
